@@ -99,6 +99,8 @@ func checkWorker(t *testing.T, l []int) {
 func makeInputs(num int) []string {
 	var names []string
 	var i = 0
+
+	fmt.Println("making inputs")
 	for f := 0; f < num; f++ {
 		names = append(names, fmt.Sprintf("824-mrinput-%d.txt", f))
 		file, err := os.Create(names[f])
@@ -131,8 +133,11 @@ func port(suffix string) string {
 
 func setup() *Master {
 	files := makeInputs(nMap)
+	fmt.Println("Made inputs")
 	master := port("master")
+	fmt.Println("master")
 	mr := Distributed("test", files, nReduce, master)
+	fmt.Println("Started Master")
 	return mr
 }
 
@@ -161,7 +166,9 @@ func TestSequentialMany(t *testing.T) {
 
 func TestBasic(t *testing.T) {
 	mr := setup()
+	fmt.Println("Started Master")
 	for i := 0; i < 2; i++ {
+		fmt.Printf("Started worker %d\n", i)
 		go RunWorker(mr.address, port("worker"+strconv.Itoa(i)),
 			MapFunc, ReduceFunc, -1)
 	}

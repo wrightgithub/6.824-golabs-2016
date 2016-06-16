@@ -77,6 +77,7 @@ func Sequential(jobName string, files []string, nreduce int,
 // Distributed schedules map and reduce tasks on workers that register with the
 // master over RPC.
 func Distributed(jobName string, files []string, nreduce int, master string) (mr *Master) {
+	fmt.Printf("In Distributed")
 	mr = newMaster(master)
 	mr.startRPCServer()
 	go mr.run(jobName, files, nreduce, mr.schedule, func() {
